@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "title": "Starry Night Reflection",
+    "artist": "Tarif Zaman",
+    "category": "Digital Art",
+    "price": 120,
+    "image": "https://images.pexels.com/photos/1585325/pexels-photo-1585325.jpeg",
+    "description": "A beautiful digital recreation of a starry night over a calm lake."
+  },
+  {
+    "id": 2,
+    "title": "Abstract Ocean",
+    "artist": "Ayesha Khan",
+    "category": "Oil Painting",
+    "price": 250,
+    "image": "https://images.pexels.com/photos/20967/pexels-photo.jpg",
+    "description": "Powerful waves captured with thick brushstrokes of oil paint."
+  },
+  {
+    "id": 3,
+    "title": "Neon Cyberpunk City",
+    "artist": "Zaman Art",
+    "category": "Cyberpunk",
+    "price": 90,
+    "image": "https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg",
+    "description": "A futuristic city street glowing with vibrant neon lights."
+  },
+  {
+    "id": 4,
+    "title": "Golden Sunset",
+    "artist": "Rafi Ahmed",
+    "category": "Photography",
+    "price": 80,
+    "image": "https://images.pexels.com/photos/462118/pexels-photo-462118.jpeg",
+    "description": "A warm golden sunset over rolling hills."
+  },
+  {
+    "id": 5,
+    "title": "Silent Forest",
+    "artist": "Nusrat Jahan",
+    "category": "Watercolor",
+    "price": 140,
+    "image": "https://images.pexels.com/photos/34950/pexels-photo.jpg",
+    "description": "A calm forest scene painted with soft watercolor tones."
+  },
+  {
+    "id": 6,
+    "title": "Urban Life",
+    "artist": "Imran Hossain",
+    "category": "Street Art",
+    "price": 110,
+    "image": "https://images.pexels.com/photos/374870/pexels-photo-374870.jpeg",
+    "description": "Busy city life captured through bold street art style."
+  },
+  {
+    "id": 7,
+    "title": "Dreamy Clouds",
+    "artist": "Sara Islam",
+    "category": "Digital Art",
+    "price": 95,
+    "image": "https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg",
+    "description": "Soft dreamy clouds floating in pastel skies."
+  },
+  {
+    "id": 8,
+    "title": "Old Town Alley",
+    "artist": "Mahmudul Hasan",
+    "category": "Sketch",
+    "price": 70,
+    "image": "https://images.pexels.com/photos/208701/pexels-photo-208701.jpeg",
+    "description": "A detailed sketch of a quiet old town alley."
+  },
+  {
+    "id": 9,
+    "title": "Crimson Rose",
+    "artist": "Lamia Akter",
+    "category": "Acrylic Painting",
+    "price": 160,
+    "image": "https://images.pexels.com/photos/36764/marguerite-daisy-beautiful-beauty.jpg",
+    "description": "A vibrant red rose painted with acrylic colors."
+  },
+  {
+    "id": 10,
+    "title": "Moonlit Desert",
+    "artist": "Fahim Rahman",
+    "category": "Digital Art",
+    "price": 130,
+    "image": "https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg",
+    "description": "A quiet desert landscape under a glowing moon."
+  },
+  {
+    "id": 11,
+    "title": "Color Burst",
+    "artist": "Tania Noor",
+    "category": "Abstract",
+    "price": 200,
+    "image": "https://images.pexels.com/photos/1193743/pexels-photo-1193743.jpeg",
+    "description": "An explosion of colors in abstract form."
+  },
+  {
+    "id": 12,
+    "title": "Rainy Window",
+    "artist": "Arif Mahmud",
+    "category": "Photography",
+    "price": 85,
+    "image": "https://images.pexels.com/photos/459451/pexels-photo-459451.jpeg",
+    "description": "Raindrops on a window creating a moody atmosphere."
+  },
+  {
+    "id": 13,
+    "title": "Mountain Whisper",
+    "artist": "Sabbir Khan",
+    "category": "Landscape",
+    "price": 180,
+    "image": "https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg",
+    "description": "Majestic mountains under a clear blue sky."
+  },
+  {
+    "id": 14,
+    "title": "Lonely Boat",
+    "artist": "Mithila Roy",
+    "category": "Oil Painting",
+    "price": 220,
+    "image": "https://images.pexels.com/photos/261403/pexels-photo-261403.jpeg",
+    "description": "A single boat floating on calm waters."
+  },
+  {
+    "id": 15,
+    "title": "City Lights",
+    "artist": "Rakibul Islam",
+    "category": "Night Photography",
+    "price": 100,
+    "image": "https://images.pexels.com/photos/466685/pexels-photo-466685.jpeg",
+    "description": "City skyline glowing with night lights."
+  },
+  {
+    "id": 16,
+    "title": "Floral Harmony",
+    "artist": "Jannatul Ferdous",
+    "category": "Watercolor",
+    "price": 150,
+    "image": "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg",
+    "description": "Delicate flowers painted in harmony."
+  },
+  {
+    "id": 17,
+    "title": "Cyber Samurai",
+    "artist": "Neo Zaman",
+    "category": "Cyberpunk",
+    "price": 175,
+    "image": "https://images.pexels.com/photos/1540258/pexels-photo-1540258.jpeg",
+    "description": "A futuristic samurai in neon cyberpunk style."
+  },
+  {
+    "id": 18,
+    "title": "Golden Field",
+    "artist": "Shuvo Das",
+    "category": "Landscape",
+    "price": 125,
+    "image": "https://images.pexels.com/photos/259280/pexels-photo-259280.jpeg",
+    "description": "A vast golden field under sunlight."
+  },
+  {
+    "id": 19,
+    "title": "Shadow Face",
+    "artist": "Anika Rahman",
+    "category": "Portrait",
+    "price": 190,
+    "image": "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
+    "description": "A dramatic portrait playing with light and shadow."
+  },
+  {
+    "id": 20,
+    "title": "Future Vision",
+    "artist": "Tarif Zaman",
+    "category": "Concept Art",
+    "price": 210,
+    "image": "https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg",
+    "description": "A conceptual vision of a futuristic world."
+  }
+]

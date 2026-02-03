@@ -1,15 +1,18 @@
 import React from 'react';
-import Banner from './Banner';
-import Explore from './Explore';
+import Banner from './Banner'; // যদি একই ফোল্ডারে থাকে
+import Explore from './Explore'; 
+import Categories from '../components/Categories';
+import TopArtists from '../components/TopArtists';
+import JoinSection from '../components/JoinSection';
 
 const Home = () => {
     return (
-        <div>
+        <div className="space-y-20"> {/* সেকশনগুলোর মাঝে গ্যাপ দেওয়ার জন্য */}
             <Banner />
-            <div className="mt-10">
-                <h2 className="text-3xl font-bold text-center mb-8">Featured Artworks</h2>
-                <Explore isHome={true} /> {/* Home-এ শুধু কিছু অংশ দেখানোর জন্য */}
-            </div>
+            <Explore isHome={true} /> 
+            <Categories />
+            <TopArtists />
+            <JoinSection />
         </div>
     );
 };
