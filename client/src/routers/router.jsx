@@ -5,6 +5,8 @@ import Explore from "../pages/Explore";
 import AddArtwork from "../pages/AddArtwork";
 import MyGallery from "../pages/MyGallery";
 import Myfavorites from "../pages/Myfavorites";
+import Register from "../components/Register";
+import Login from "../components/Login";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +17,9 @@ const router = createBrowserRouter([
       { path: "/explore", element: <Explore /> },
       { path: "/add-artwork", element: <AddArtwork /> },
       { path: "/my-gallery", element: <MyGallery /> },
-      { path: "/favorites", element: <Myfavorites /> }, // Navbar-এর লিঙ্কের সাথে মিলিয়ে
+      { path: "/favorites", element: <Myfavorites /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
     ],
   },
 ]);

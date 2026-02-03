@@ -3,11 +3,8 @@ import { Link, NavLink } from "react-router-dom";
 import logoImg from "../assets/palette.png";
 
 export default function Navbar() {
-  // আপাতত একটি ডামি ইউজার স্টেট (Firebase সেটআপ করলে এটি ডাইনামিক হবে)
-  const user = {
-    displayName: "Tarif Zaman",
-    photoURL: "https://i.ibb.co/5GzXkwq/user.png", 
-  };
+  // ডামি ইউজার স্টেট: লগইন না থাকলে null করে টেস্ট করো
+  const user = null; 
 
   // নেভলিঙ্কগুলোর কমন ডিজাইন ফাংশন
   const navLinksClass = ({ isActive }) =>
@@ -38,6 +35,7 @@ export default function Navbar() {
               Explore Artworks
             </NavLink>
           </li>
+          {/* ইউজার লগইন থাকলেই কেবল এই ৩টি বাটন দেখাবে */}
           {user && (
             <>
               <li>
@@ -60,7 +58,7 @@ export default function Navbar() {
         </ul>
       </div>
 
-      {/* Navbar End: User Profile & Mobile Menu */}
+      {/* Navbar End: User Profile & Login/Register */}
       <div className="navbar-end gap-2">
         {user ? (
           <div className="dropdown dropdown-end">
@@ -90,14 +88,15 @@ export default function Navbar() {
             </ul>
           </div>
         ) : (
-          <div className="hidden sm:flex gap-2">
+          /* ইউজার না থাকলে লগইন এবং রেজিস্টার বাটন */
+          <div className="flex gap-2">
             <Link to="/login" className="btn btn-outline btn-primary btn-sm">Login</Link>
             <Link to="/register" className="btn btn-primary btn-sm text-white">Register</Link>
           </div>
         )}
 
-        {/* Mobile Dropdown (Mobile/Tablet View) */}
-        <div className="dropdown dropdown-end lg:hidden">
+        {/* Mobile Dropdown */}
+        <div className="dropdown dropdown-end lg:hidden ml-2">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" />
@@ -112,13 +111,6 @@ export default function Navbar() {
                 <li><NavLink to="/add-artwork">Add Artwork</NavLink></li>
                 <li><NavLink to="/my-gallery">My Gallery</NavLink></li>
                 <li><NavLink to="/favorites">My Favorites</NavLink></li>
-              </>
-            )}
-            {!user && (
-              <>
-                <div className="divider my-1"></div>
-                <li><Link to="/login">Login</Link></li>
-                <li><Link to="/register">Register</Link></li>
               </>
             )}
           </ul>
