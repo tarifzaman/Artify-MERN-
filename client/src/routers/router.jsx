@@ -4,7 +4,7 @@ import Home from "../pages/Home";
 import Explore from "../pages/Explore";
 import AddArtwork from "../pages/AddArtwork";
 import MyGallery from "../pages/MyGallery";
-import Myfavorites from "../pages/Myfavorites";
+import Favorites from "../pages/Favorites";
 import Register from "../components/Register";
 import Login from "../components/Login";
 
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
       { path: "/explore", element: <Explore /> },
       { path: "/add-artwork", element: <AddArtwork /> },
       { path: "/my-gallery", element: <MyGallery /> },
-      { path: "/favorites", element: <Myfavorites /> },
+      { path: "/favorites", element: <Favorites /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
     ],
