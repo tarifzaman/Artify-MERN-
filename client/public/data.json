@@ -178,5 +178,185 @@
     "price": 210,
     "image": "https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg",
     "description": "A conceptual vision of a futuristic world."
+  },
+  {
+    "id": 21,
+    "title": "Midnight Bloom",
+    "artist": "Tarif Zaman",
+    "category": "Digital Art",
+    "price": 145,
+    "image": "https://images.pexels.com/photos/167699/pexels-photo-167699.jpeg",
+    "description": "A glowing flower in the middle of a dark, mystical forest."
+  },
+  {
+    "id": 22,
+    "title": "Rustic Window",
+    "artist": "Ayesha Khan",
+    "category": "Oil Painting",
+    "price": 280,
+    "image": "https://images.pexels.com/photos/102127/pexels-photo-102127.jpeg",
+    "description": "An old rustic window with a view of a blooming garden."
+  },
+  {
+    "id": 23,
+    "title": "Cyberpunk Alleyway",
+    "artist": "Zaman Art",
+    "category": "Cyberpunk",
+    "price": 115,
+    "image": "https://images.pexels.com/photos/2113566/pexels-photo-2113566.jpeg",
+    "description": "Rain-slicked streets of a future city reflecting neon signs."
+  },
+  {
+    "id": 24,
+    "title": "Pencil Portrait",
+    "artist": "Mahmudul Hasan",
+    "category": "Sketch",
+    "price": 65,
+    "image": "https://images.pexels.com/photos/1406863/pexels-photo-1406863.jpeg",
+    "description": "A hyper-realistic pencil sketch of an elderly man."
+  },
+  {
+    "id": 25,
+    "title": "Ocean Breeze",
+    "artist": "Rafi Ahmed",
+    "category": "Photography",
+    "price": 95,
+    "image": "https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg",
+    "description": "A wide-angle shot of turquoise ocean waves hitting white sand."
+  },
+  {
+    "id": 26,
+    "title": "Digital Skyline",
+    "artist": "Tarif Zaman",
+    "category": "Digital Art",
+    "price": 160,
+    "image": "https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg",
+    "description": "Modern architecture reimagined through digital manipulation."
+  },
+  {
+    "id": 27,
+    "title": "Abstract Waves",
+    "artist": "Tania Noor",
+    "category": "Abstract",
+    "price": 195,
+    "image": "https://images.pexels.com/photos/1509534/pexels-photo-1509534.jpeg",
+    "description": "Swirls of blue and gold creating a sense of movement."
+  },
+  {
+    "id": 28,
+    "title": "Neon Samurai II",
+    "artist": "Neo Zaman",
+    "category": "Cyberpunk",
+    "price": 185,
+    "image": "https://images.pexels.com/photos/163036/mario-luigi-yoshi-figures-163036.jpeg",
+    "description": "A warrior standing against the backdrop of a futuristic Tokyo."
+  },
+  {
+    "id": 29,
+    "title": "Mountain Pathway",
+    "artist": "Sabbir Khan",
+    "category": "Landscape",
+    "price": 140,
+    "image": "https://images.pexels.com/photos/618833/pexels-photo-618833.jpeg",
+    "description": "A winding path leading to the top of a snow-capped mountain."
+  },
+  {
+    "id": 30,
+    "title": "Street Musician",
+    "artist": "Imran Hossain",
+    "category": "Street Art",
+    "price": 130,
+    "image": "https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg",
+    "description": "A colorful graffiti mural of a musician on a brick wall."
+  },
+  {
+    "id": 31,
+    "title": "Vintage Bicycle",
+    "artist": "Mahmudul Hasan",
+    "category": "Sketch",
+    "price": 75,
+    "image": "https://images.pexels.com/photos/1149601/pexels-photo-1149601.jpeg",
+    "description": "Detailed charcoal sketch of a classic vintage bicycle."
+  },
+  {
+    "id": 32,
+    "title": "The Red Umbrella",
+    "artist": "Arif Mahmud",
+    "category": "Photography",
+    "price": 105,
+    "image": "https://images.pexels.com/photos/804611/pexels-photo-804611.jpeg",
+    "description": "A single red umbrella in a black and white rainy street."
+  },
+  {
+    "id": 33,
+    "title": "Ethereal Sunset",
+    "artist": "Sara Islam",
+    "category": "Digital Art",
+    "price": 110,
+    "image": "https://images.pexels.com/photos/189349/pexels-photo-189349.jpeg",
+    "description": "Vibrant purple and pink hues blending in a digital landscape."
+  },
+  {
+    "id": 34,
+    "title": "Summer Meadows",
+    "artist": "Nusrat Jahan",
+    "category": "Watercolor",
+    "price": 155,
+    "image": "https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg",
+    "description": "Soft green fields with colorful wildflowers in watercolor."
+  },
+  {
+    "id": 35,
+    "title": "The Old Man's Tale",
+    "artist": "Anika Rahman",
+    "category": "Portrait",
+    "price": 220,
+    "image": "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg",
+    "description": "An expressive portrait capturing years of wisdom."
+  },
+  {
+    "id": 36,
+    "title": "Cyber Drone Vision",
+    "artist": "Zaman Art",
+    "category": "Cyberpunk",
+    "price": 140,
+    "image": "https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg",
+    "description": "A drone's eye view of a neon-infused metropolitan area."
+  },
+  {
+    "id": 37,
+    "title": "Lakeside Cabin",
+    "artist": "Sabbir Khan",
+    "category": "Landscape",
+    "price": 170,
+    "image": "https://images.pexels.com/photos/709552/pexels-photo-709552.jpeg",
+    "description": "A wooden cabin reflecting in the mirror-like surface of a lake."
+  },
+  {
+    "id": 38,
+    "title": "Glitch Flower",
+    "artist": "Tarif Zaman",
+    "category": "Digital Art",
+    "price": 130,
+    "image": "https://images.pexels.com/photos/60597/dahliengarten-bad-muga-dahlie-flower-60597.jpeg",
+    "description": "A digital glitch effect applied to a beautiful dahlia flower."
+  },
+  {
+    "id": 39,
+    "title": "Morning Coffee",
+    "artist": "Ayesha Khan",
+    "category": "Oil Painting",
+    "price": 210,
+    "image": "https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg",
+    "description": "A cozy still life painting of a coffee cup on a wooden table."
+  },
+  {
+    "id": 40,
+    "title": "Geometric Soul",
+    "artist": "Tania Noor",
+    "category": "Abstract",
+    "price": 230,
+    "image": "https://images.pexels.com/photos/1570779/pexels-photo-1570779.jpeg",
+    "description": "A complex arrangement of geometric shapes and bold primary colors."
   }
 ]

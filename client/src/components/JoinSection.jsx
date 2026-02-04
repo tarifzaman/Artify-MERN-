@@ -1,6 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function JoinSection() {
+  // আপাতত ডামি ইউজার স্টেট। 
+  // লগইন চেক করার জন্য এটি null (লগআউট) অথবা object (লগইন) করো।
+  const user = null; 
+
+  // ইউজার লগইন থাকলে এই পুরো সেকশনটি null রিটার্ন করবে (অর্থাৎ কিছুই দেখাবে না)
+  if (user) {
+    return null;
+  }
+
   return (
     <div className="container mx-auto px-6 mb-20">
       <div className="bg-primary rounded-3xl p-10 md:p-20 text-white flex flex-col md:flex-row items-center justify-between gap-10">
@@ -13,9 +23,12 @@ export default function JoinSection() {
             deserve.
           </p>
         </div>
-        <button className="btn btn-lg bg-white text-primary border-none hover:bg-gray-100 px-10">
-          Get Started
-        </button>
+        
+        <Link to="/register">
+          <button className="btn btn-lg bg-white text-primary border-none hover:bg-gray-100 px-10 shadow-xl transition-transform hover:scale-105 active:scale-95">
+            Get Started
+          </button>
+        </Link>
       </div>
     </div>
   );
