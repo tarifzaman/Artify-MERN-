@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { 
   createUserWithEmailAndPassword, 
   onAuthStateChanged, 
@@ -16,13 +16,13 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const googleProvider = new GoogleAuthProvider();
 
-  // ১. ইউজার তৈরি এবং প্রোফাইল আপডেট (একসাথে)
+  // ১. ইউজার তৈরি এবং প্রোফাইল আপডেট
   const createUser = async (email, password, name, photo) => {
     setLoading(true);
     const result = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(result.user, {
-        displayName: name,
-        photoURL: photo
+      displayName: name,
+      photoURL: photo
     });
     return result;
   };
@@ -39,8 +39,8 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
-  // ৪. লগআউট
-  const logout = () => {
+  // ৪. লগআউট (নেভবারে 'logOut' নামে কল করা হয়েছে, তাই এখানেও নাম logOut)
+  const logOut = () => {
     setLoading(true);
     return signOut(auth);
   };
@@ -60,7 +60,7 @@ const AuthProvider = ({ children }) => {
     createUser,
     loginUser,
     googleLogin,
-    logout,
+    logOut, // নেভবারের সাথে মিল রেখে নাম logOut রাখা হয়েছে
   };
 
   return (

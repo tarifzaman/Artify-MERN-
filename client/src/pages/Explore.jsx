@@ -1,143 +1,180 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FaHeart, FaRegHeart, FaSearch } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; 
-import Swal from "sweetalert2"; 
+import { useLocation, Link } from "react-router-dom"; // Link যোগ করা হয়েছে
+import { FaHeart, FaRegHeart, FaEye, FaTimes, FaSearch, FaLock } from "react-icons/fa"; // FaLock যোগ করা হয়েছে
 import { AuthContext } from "../providers/AuthContext";
+import Swal from "sweetalert2";
 
-const Explore = ({ isHome }) => {
+export default function Explore({ isHome }) {
   const [artworks, setArtworks] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
   const [favorites, setFavorites] = useState([]);
-  const navigate = useNavigate();
-  const { user, loading } = useContext(AuthContext);
+  const [selectedArt, setSelectedArt] = useState(null);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  const { user, loading } = useContext(AuthContext); // loading স্টেট নেওয়া হয়েছে
+  const location = useLocation();
+
+  const storageKey = user ? `fav_${user.email}` : null;
 
   useEffect(() => {
     fetch("/data.json")
       .then((res) => res.json())
-      .then((data) => setArtworks(data))
-      .catch((err) => console.error("Error fetching data:", err));
-
-    // LocalStorage থেকে ফেভারিট ডাটা লোড করা
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(savedFavorites);
-
-    if (!loading && !user && !isHome) {
-      Swal.fire({
-        title: "Login Required!",
-        text: "You need to login to see the full gallery.",
-        icon: "info",
-        showCancelButton: true,
-        confirmButtonColor: "#000000",
-        confirmButtonText: "Login Now",
-        allowOutsideClick: false,
-      }).then((result) => {
-        if (result.isConfirmed) navigate("/login");
+      .then((data) => {
+        setArtworks(data);
+        if (location.state?.selectedCategory) {
+          setActiveCategory(location.state.selectedCategory);
+        }
       });
-    }
-  }, [user, loading, isHome, navigate]);
 
-  // ফেভারিট অ্যাড বা রিমুভ করার ফাংশন
+    if (storageKey) {
+      const saved = JSON.parse(localStorage.getItem(storageKey)) || [];
+      setFavorites(saved);
+    }
+  }, [storageKey, location.state]);
+
   const toggleFavorite = (art) => {
     if (!user) {
-      Swal.fire("Login First!", "You need to login to add favorites", "warning");
-      return;
+      return Swal.fire("Login Required", "Please login to add favorites", "warning");
     }
-
-    let updatedFavorites;
-    const isExist = favorites.find((fav) => fav.id === art.id);
-
-    if (isExist) {
-      updatedFavorites = favorites.filter((fav) => fav.id !== art.id);
-      Swal.fire({ title: "Removed!", icon: "info", timer: 1000, showConfirmButton: false });
-    } else {
-      updatedFavorites = [...favorites, art];
-      Swal.fire({ title: "Added to Favorites!", icon: "success", timer: 1000, showConfirmButton: false });
-    }
-
-    setFavorites(updatedFavorites);
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    const currentFavs = JSON.parse(localStorage.getItem(storageKey)) || [];
+    const isExist = currentFavs.find((f) => f.id === art.id);
+    let updated = isExist ? currentFavs.filter((f) => f.id !== art.id) : [...currentFavs, art];
+    
+    setFavorites(updated);
+    localStorage.setItem(storageKey, JSON.stringify(updated));
   };
 
-  // ইউনিক ক্যাটাগরি লিস্ট তৈরি (Dropdown এর জন্য)
-  const categories = ["All", ...new Set(artworks.map((art) => art.category))];
-
-  // ফিল্টার লজিক (Search + Category)
+  // ফিল্টারিং লজিক
   const filteredArtworks = artworks.filter((art) => {
-    const matchesSearch = art.title.toLowerCase().includes(searchText.toLowerCase()) || 
-                         art.artist.toLowerCase().includes(searchText.toLowerCase());
-    const matchesCategory = selectedCategory === "All" || art.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+    const matchesCategory = activeCategory === "All" || art.category === activeCategory;
+    const matchesSearch = 
+      art.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      art.artist.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
   });
 
-  const displayData = isHome ? artworks.slice(0, 6) : filteredArtworks;
+  const displayArtworks = isHome ? artworks.slice(0, 6) : filteredArtworks;
 
-  if (loading && !isHome) return <div className="min-h-screen flex justify-center items-center">Checking Auth...</div>;
+  if (loading) return <div className="text-center p-20 font-bold">Loading Gallery...</div>;
 
   return (
-    <div className="container mx-auto p-6 min-h-[60vh]">
-      {!isHome && user && (
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-12">
-          {/* Search Box */}
-          <div className="relative w-full max-w-md">
-            <input
-              type="text"
-              placeholder="Search art or artist..."
-              className="input input-bordered w-full pl-12 focus:border-black"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-            />
-            <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-          </div>
-
-          {/* Category Dropdown */}
-          <select 
-            className="select select-bordered w-full max-w-xs focus:border-black"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-          </select>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {(user || isHome) && displayData.length > 0 ? (
-          displayData.map((art) => {
-            const isFav = favorites.find(fav => fav.id === art.id);
-            return (
-              <div key={art.id} className="group card bg-base-100 shadow-lg border border-gray-100 overflow-hidden">
-                <figure className="relative h-60 overflow-hidden">
-                  <img src={art.image} alt={art.title} className="w-full h-full object-cover group-hover:scale-110 transition-duration-500" />
-                  {/* Favorite Button */}
-                  <div 
-                    onClick={() => toggleFavorite(art)}
-                    className="absolute top-3 right-3 bg-white/90 p-2 rounded-full cursor-pointer shadow-md hover:scale-110 transition"
-                  >
-                    {isFav ? <FaHeart className="text-red-500 text-xl" /> : <FaRegHeart className="text-gray-400 text-xl" />}
-                  </div>
-                </figure>
-                <div className="card-body p-5">
-                  <h2 className="card-title text-lg font-bold">{art.title}</h2>
-                  <p className="text-sm text-gray-500 italic">By {art.artist}</p>
-                  <div className="flex justify-between items-center mt-4">
-                    <p className="text-xl font-black text-black">${art.price}</p>
-                    <span className="badge badge-outline text-[10px]">{art.category}</span>
-                  </div>
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          !isHome && !user && (
-            <div className="col-span-full text-center py-20 text-gray-400 font-semibold italic">
-              Content is locked. Please Login.
+    <div className="container mx-auto p-6 min-h-screen">
+      <div className="text-center mb-10">
+        <h2 className="text-4xl font-black uppercase tracking-widest mb-6">
+          {isHome ? "Featured Artworks" : "Explore Art Gallery"}
+        </h2>
+        
+        {/* সার্চ এবং ফিল্টার শুধু লগইন ইউজার বা হোম পেজে দেখাবে (প্রয়োজন অনুযায়ী) */}
+        {!isHome && user && (
+          <div className="max-w-4xl mx-auto space-y-6 animate-fadeIn">
+            <div className="relative max-w-md mx-auto">
+              <input
+                type="text"
+                placeholder="Search by art or artist name..."
+                className="input input-bordered w-full pl-12 rounded-full shadow-sm focus:border-primary"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
             </div>
-          )
+
+            <div className="flex flex-wrap justify-center gap-2">
+              {["All", "Digital Art", "Oil Painting", "Cyberpunk", "Sketching"].map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`btn btn-sm rounded-full px-6 transition-all ${activeCategory === cat ? 'btn-primary' : 'btn-outline border-gray-300'}`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
         )}
       </div>
+      
+      {/* লগইন কন্ডিশন: হোম পেজে থাকলে সবাই দেখবে, এক্সপ্লোর পেজে থাকলে লগইন লাগবে */}
+      {(!user && !isHome) ? (
+        <div className="max-w-md mx-auto text-center py-20 bg-base-200 rounded-[40px] border-2 border-dashed border-primary/30 px-10">
+          <div className="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <FaLock className="text-primary text-3xl" />
+          </div>
+          <h2 className="text-2xl font-bold mb-4">Gallery is Locked!</h2>
+          <p className="text-gray-500 mb-8">Please login to explore our full collection of masterpieces and artist details.</p>
+          <Link to="/login" className="btn btn-primary btn-wide rounded-full font-bold">Login to Unlock</Link>
+          <p className="mt-4 text-sm text-gray-400">Don't have an account? <Link to="/register" className="text-primary underline">Register</Link></p>
+        </div>
+      ) : (
+        <>
+          {displayArtworks.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fadeIn">
+              {displayArtworks.map((art) => {
+                const isFav = favorites.find((f) => f.id === art.id);
+                return (
+                  <div key={art.id} className="card bg-base-100 shadow-lg border hover:shadow-2xl transition-all duration-300 group rounded-2xl overflow-hidden">
+                    <figure className="relative h-64 overflow-hidden">
+                      <img src={art.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={art.title} />
+                      <button 
+                        onClick={() => toggleFavorite(art)} 
+                        className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:scale-110 transition-transform"
+                      >
+                        {isFav ? <FaHeart className="text-red-500" /> : <FaRegHeart className="text-gray-400" />}
+                      </button>
+                    </figure>
+                    
+                    <div className="card-body p-6 bg-white">
+                      <div className="badge badge-ghost text-xs mb-1 uppercase tracking-tighter">{art.category}</div>
+                      <h2 className="card-title text-xl font-bold truncate">{art.title}</h2>
+                      <p className="text-gray-500 font-medium">By {art.artist}</p>
+                      <div className="card-actions justify-between items-center mt-4">
+                        <span className="text-2xl font-black text-black">${art.price}</span>
+                        <button onClick={() => setSelectedArt(art)} className="btn btn-sm btn-primary rounded-lg">
+                          <FaEye /> View Details
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-20 bg-gray-50 rounded-3xl border border-dashed border-gray-200">
+              <p className="text-gray-500 text-lg">No artworks found matching "{searchQuery}"</p>
+            </div>
+          )}
+        </>
+      )}
+
+      {/* --- View Details Modal --- */}
+      {selectedArt && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-base-100 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl relative flex flex-col md:flex-row animate-scaleUp">
+            <button onClick={() => setSelectedArt(null)} className="absolute top-4 right-4 z-10 bg-white/20 hover:bg-black/20 p-2 rounded-full text-white md:text-black">
+              <FaTimes size={20} />
+            </button>
+            <div className="md:w-1/2 h-72 md:h-auto">
+              <img src={selectedArt.image} className="w-full h-full object-cover" alt={selectedArt.title} />
+            </div>
+            <div className="md:w-1/2 p-8 flex flex-col justify-center">
+              <div className="badge badge-primary mb-4 px-4 py-3 font-bold uppercase">{selectedArt.category}</div>
+              <h2 className="text-3xl font-black mb-2 leading-tight">{selectedArt.title}</h2>
+              <p className="text-lg font-medium text-primary mb-4">Created by: {selectedArt.artist}</p>
+              <p className="text-gray-600 mb-6 italic border-l-4 border-primary/20 pl-4">
+                {selectedArt.description || "A masterfully crafted piece of art that tells a unique story and brings life to any space."}
+              </p>
+              <div className="flex items-center justify-between mt-auto">
+                <span className="text-4xl font-black">${selectedArt.price}</span>
+                <button 
+                   onClick={() => { toggleFavorite(selectedArt); setSelectedArt(null); }} 
+                   className={`btn rounded-full px-8 ${favorites.find(f => f.id === selectedArt.id) ? 'btn-error text-white' : 'btn-primary'}`}
+                >
+                  {favorites.find(f => f.id === selectedArt.id) ? "Liked" : "Add Like"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
-};
-
-export default Explore;
+}
