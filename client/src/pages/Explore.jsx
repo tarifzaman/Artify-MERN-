@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom"; // Link যোগ করা হয়েছে
-import { FaHeart, FaRegHeart, FaEye, FaTimes, FaSearch, FaLock } from "react-icons/fa"; // FaLock যোগ করা হয়েছে
+import { useLocation, Link } from "react-router-dom";
+import { FaHeart, FaRegHeart, FaEye, FaTimes, FaSearch, FaLock } from "react-icons/fa";
 import { AuthContext } from "../providers/AuthContext";
 import Swal from "sweetalert2";
 
@@ -11,20 +11,22 @@ export default function Explore({ isHome }) {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   
-  const { user, loading } = useContext(AuthContext); // loading স্টেট নেওয়া হয়েছে
+  const { user, loading } = useContext(AuthContext);
   const location = useLocation();
 
   const storageKey = user ? `fav_${user.email}` : null;
 
   useEffect(() => {
-    fetch("/data.json")
+    // --- ডাটাবেস থেকে ডাটা নিয়ে আসা ---
+    fetch("http://localhost:5000/artworks")
       .then((res) => res.json())
       .then((data) => {
         setArtworks(data);
         if (location.state?.selectedCategory) {
           setActiveCategory(location.state.selectedCategory);
         }
-      });
+      })
+      .catch(err => console.error("Error fetching artworks:", err));
 
     if (storageKey) {
       const saved = JSON.parse(localStorage.getItem(storageKey)) || [];
@@ -37,14 +39,14 @@ export default function Explore({ isHome }) {
       return Swal.fire("Login Required", "Please login to add favorites", "warning");
     }
     const currentFavs = JSON.parse(localStorage.getItem(storageKey)) || [];
-    const isExist = currentFavs.find((f) => f.id === art.id);
-    let updated = isExist ? currentFavs.filter((f) => f.id !== art.id) : [...currentFavs, art];
+    const isExist = currentFavs.find((f) => f._id === art._id); // _id ব্যবহার করা হয়েছে
+    let updated = isExist ? currentFavs.filter((f) => f._id !== art._id) : [...currentFavs, art];
     
     setFavorites(updated);
     localStorage.setItem(storageKey, JSON.stringify(updated));
   };
 
-  // ফিল্টারিং লজিক
+  // --- ফিল্টারিং লজিক (Search & Category) ---
   const filteredArtworks = artworks.filter((art) => {
     const matchesCategory = activeCategory === "All" || art.category === activeCategory;
     const matchesSearch = 
@@ -53,6 +55,7 @@ export default function Explore({ isHome }) {
     return matchesCategory && matchesSearch;
   });
 
+  // হোম পেজে হলে শুধু ৬টি দেখাবে, নতুবা ফিল্টার করা ডাটা
   const displayArtworks = isHome ? artworks.slice(0, 6) : filteredArtworks;
 
   if (loading) return <div className="text-center p-20 font-bold">Loading Gallery...</div>;
@@ -64,8 +67,8 @@ export default function Explore({ isHome }) {
           {isHome ? "Featured Artworks" : "Explore Art Gallery"}
         </h2>
         
-        {/* সার্চ এবং ফিল্টার শুধু লগইন ইউজার বা হোম পেজে দেখাবে (প্রয়োজন অনুযায়ী) */}
-        {!isHome && user && (
+        {/* সার্চ এবং ফিল্টার শুধু লগইন ইউজার বা হোম পেজে দেখাবে */}
+        {!isHome && (
           <div className="max-w-4xl mx-auto space-y-6 animate-fadeIn">
             <div className="relative max-w-md mx-auto">
               <input
@@ -79,7 +82,8 @@ export default function Explore({ isHome }) {
             </div>
 
             <div className="flex flex-wrap justify-center gap-2">
-              {["All", "Digital Art", "Oil Painting", "Cyberpunk", "Sketching"].map(cat => (
+              {/* আপনার ডাটাবেসের ক্যাটাগরির সাথে মিলিয়ে বাটনগুলো এখানে দিন */}
+              {["All", "Painting", "Digital Art", "Photography", "Sculpture"].map(cat => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
@@ -93,7 +97,7 @@ export default function Explore({ isHome }) {
         )}
       </div>
       
-      {/* লগইন কন্ডিশন: হোম পেজে থাকলে সবাই দেখবে, এক্সপ্লোর পেজে থাকলে লগইন লাগবে */}
+      {/* এক্সপ্লোর পেজে লগইন না থাকলে লক দেখাবে */}
       {(!user && !isHome) ? (
         <div className="max-w-md mx-auto text-center py-20 bg-base-200 rounded-[40px] border-2 border-dashed border-primary/30 px-10">
           <div className="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -102,16 +106,15 @@ export default function Explore({ isHome }) {
           <h2 className="text-2xl font-bold mb-4">Gallery is Locked!</h2>
           <p className="text-gray-500 mb-8">Please login to explore our full collection of masterpieces and artist details.</p>
           <Link to="/login" className="btn btn-primary btn-wide rounded-full font-bold">Login to Unlock</Link>
-          <p className="mt-4 text-sm text-gray-400">Don't have an account? <Link to="/register" className="text-primary underline">Register</Link></p>
         </div>
       ) : (
         <>
           {displayArtworks.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fadeIn">
               {displayArtworks.map((art) => {
-                const isFav = favorites.find((f) => f.id === art.id);
+                const isFav = favorites.find((f) => f._id === art._id);
                 return (
-                  <div key={art.id} className="card bg-base-100 shadow-lg border hover:shadow-2xl transition-all duration-300 group rounded-2xl overflow-hidden">
+                  <div key={art._id} className="card bg-base-100 shadow-lg border hover:shadow-2xl transition-all duration-300 group rounded-2xl overflow-hidden">
                     <figure className="relative h-64 overflow-hidden">
                       <img src={art.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={art.title} />
                       <button 
@@ -160,15 +163,15 @@ export default function Explore({ isHome }) {
               <h2 className="text-3xl font-black mb-2 leading-tight">{selectedArt.title}</h2>
               <p className="text-lg font-medium text-primary mb-4">Created by: {selectedArt.artist}</p>
               <p className="text-gray-600 mb-6 italic border-l-4 border-primary/20 pl-4">
-                {selectedArt.description || "A masterfully crafted piece of art that tells a unique story and brings life to any space."}
+                {selectedArt.description || "A masterfully crafted piece of art that tells a unique story."}
               </p>
               <div className="flex items-center justify-between mt-auto">
                 <span className="text-4xl font-black">${selectedArt.price}</span>
                 <button 
                    onClick={() => { toggleFavorite(selectedArt); setSelectedArt(null); }} 
-                   className={`btn rounded-full px-8 ${favorites.find(f => f.id === selectedArt.id) ? 'btn-error text-white' : 'btn-primary'}`}
+                   className={`btn rounded-full px-8 ${favorites.find(f => f._id === selectedArt._id) ? 'btn-error text-white' : 'btn-primary'}`}
                 >
-                  {favorites.find(f => f.id === selectedArt.id) ? "Liked" : "Add Like"}
+                  {favorites.find(f => f._id === selectedArt._id) ? "Liked" : "Add Like"}
                 </button>
               </div>
             </div>
