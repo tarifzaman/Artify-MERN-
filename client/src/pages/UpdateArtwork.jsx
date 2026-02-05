@@ -11,7 +11,7 @@ const UpdateArtwork = () => {
 
   // ১. পুরনো ডাটা ডাটাবেস থেকে লোড করা
   useEffect(() => {
-    fetch(`http://localhost:5000/artwork/${id}`)
+    fetch(`https://artify-mern.onrender.com/artwork/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setArtwork(data);
@@ -44,7 +44,7 @@ const UpdateArtwork = () => {
     };
 
     // ২. ডাটাবেসে আপডেট রিকোয়েস্ট (PUT) পাঠানো
-    fetch(`http://localhost:5000/artwork/${id}`, {
+    fetch(`https://artify-mern.onrender.com/artwork/${id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

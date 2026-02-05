@@ -30,7 +30,7 @@ const AddArtwork = () => {
     };
 
     // আপনার ব্যাকএন্ডে ডাটা পাঠানো
-    fetch("http://localhost:5000/artworks", {
+    fetch("https://artify-mern.onrender.com/artworks", {
       method: "POST",
       headers: {
         "content-type": "application/json",
