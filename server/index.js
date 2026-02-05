@@ -11,8 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // আপনার MongoDB URI
-const uri =
-  "mongodb+srv://ArtifyDB:algorithm@cluster0.da9dhi6.mongodb.net/?appName=Cluster0";
+const uri = "mongodb+srv://ArtifyDB:algorithm@cluster0.da9dhi6.mongodb.net/?appName=Cluster0";
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -31,34 +30,66 @@ async function run() {
     const db = client.db("artwork-db");
     const artworkCollection = db.collection("artworks");
 
-    // ১. POST Route: নতুন আর্টওয়ার্ক ডাটাবেসে সেভ করা
+    // ১. GET Route: সব আর্টওয়ার্ক দেখা
+    app.get("/artworks", async (req, res) => {
+      const result = await artworkCollection.find().toArray();
+      res.send(result);
+    });
+
+    // ২. POST Route: নতুন আর্টওয়ার্ক যোগ করা
     app.post("/artworks", async (req, res) => {
       const newArtwork = req.body;
       const result = await artworkCollection.insertOne(newArtwork);
       res.send(result);
     });
 
-    // ২. GET Route: সব আর্টওয়ার্ক ডাটাবেস থেকে নিয়ে আসা
-    app.get("/artworks", async (req, res) => {
-      const result = await artworkCollection.find().toArray();
-      res.send(result);
-    });
-    // ১. নির্দিষ্ট ইউজারের ইমেইল অনুযায়ী ডাটা পাওয়ার API (My Gallery-র জন্য)
+    // ৩. GET Route: নির্দিষ্ট ইউজারের আর্ট দেখা (My Gallery)
     app.get("/my-artworks/:email", async (req, res) => {
       const email = req.params.email;
-      const query = { userEmail: email }; // আপনার ডাটাবেসে ফিল্ডের নাম 'userEmail' আছে কি না চেক করে নিন
+      const query = { userEmail: email }; 
       const result = await artworkCollection.find(query).toArray();
       res.send(result);
     });
 
-    // ২. আর্টওয়ার্ক ডিলিট করার API
+    // ৪. GET Route: একটি নির্দিষ্ট আর্টওয়ার্কের ডাটা পাওয়া (Update করার আগে ডাটা লোড করতে)
+    app.get("/artwork/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await artworkCollection.findOne(query);
+      res.send(result);
+    });
+
+    // ৫. PUT Route: আর্টওয়ার্ক আপডেট করা
+    app.put("/artwork/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true }; // ডাটা না থাকলে তৈরি করবে
+      const updatedArt = req.body;
+
+      const artwork = {
+        $set: {
+          title: updatedArt.title,
+          artist: updatedArt.artist,
+          category: updatedArt.category,
+          price: updatedArt.price,
+          image: updatedArt.image,
+          description: updatedArt.description,
+        },
+      };
+
+      const result = await artworkCollection.updateOne(filter, artwork, options);
+      res.send(result);
+    });
+
+    // ৬. DELETE Route: আর্টওয়ার্ক ডিলিট করা
     app.delete("/artwork/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await artworkCollection.deleteOne(query);
       res.send(result);
     });
-    // ৩. Ping: কানেকশন চেক করা
+
+    // Ping: কানেকশন চেক
     await client.db("admin").command({ ping: 1 });
   } catch (error) {
     console.error("❌ MongoDB Connection Error:", error);
